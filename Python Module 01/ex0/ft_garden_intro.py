@@ -7,3 +7,5 @@ def ft_garden_intro(name : str, height : int, age : int) -> None:
 
 if __name__ == "__main__":
     ft_garden_intro("Rose", 27, 10)
+    # ft_garden_intro("Sunflower", 80, 45)
+    # ft_garden_intro("Rose", 15, 120)
