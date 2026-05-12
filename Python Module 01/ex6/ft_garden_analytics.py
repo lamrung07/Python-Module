@@ -12,13 +12,24 @@ class Plant_Secured:
 			print(f"{self._name}: Error, age can't be negative")
 		else:
 			self._age = age
-
+	#method_____________________________________________________
+	@staticmethod
+	def age_check(plant_age):
+		print("=== Check year-old")
+		if plant_age > 365:
+			print(f"Is {plant_age} days more than a year? -> True")
+		else:
+			print(f"Is {plant_age} days more than a year? -> False")
+	@classmethod
+	def anonymous(cls):
+		return cls(name="Unknown plant", height=0.0, age=0)
+	#grow & age_________________________________________________
 	def grow(self):
 		self._height += 1.2
 		self._height = round(self._height, 2)
 	def age(self):
 		self._age += 1
-
+	#access data ________________________________________________
 	def set_height(self, height : float)->None:
 		if height < 0:
 			print(f"{self._name}: Error, height can't be negative\nHeight update rejected")
@@ -35,6 +46,7 @@ class Plant_Secured:
 		return self._height
 	def get_age(self) -> int:
 		return self._age
+	#show________________________________________________________
 	def show(self):
 		print(f"{self._name}: {self._height} cm, {self._age} days old")
 
@@ -81,27 +93,13 @@ class Vegetable(Plant_Secured):
 		print(f"Harvest season: {self._harvest_season}")
 		print(f"Nutritional value: {self._nutritional_value}")
 
-
-if __name__ == "__main__":
-    print("=== Garden Plant Types ===")
-    print("\n=== Flower")
-    rose = Flower("Rose", 15, 10, "red")
-    rose.show()
-    rose.bloom()
-    rose.show()
-	#___________________________________#
-    print("\n=== Tree")
-    oak = Tree("Oak", 200.0, 365, 5.0)
-    oak.show()
-    oak.produce_shade()
-	#___________________________________#
-    print("\n=== Vegetable")
-    tomato = Vegetable("Tomato", 5.0, 10, "April")
-    tomato.show()
-	#___________________________________#
-    print("[make tomato grow and age for 20 days]")
-    for _ in range(20):
-        tomato.grow()
-        tomato.age()
-    tomato.show()
-
+class Seed(Flower):
+	def __init__(self, name : str, height : float, age : int, color : str):
+		super().__init__(name, height, age, color)
+		if self._bloom = 0:
+			self._seed = 0
+		else:
+			self._seed = 42 
+	def show(self):
+		super().show()
+		print(f"Seeds: {self._seed}")

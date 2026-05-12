@@ -1,12 +1,22 @@
 class Plant:
-  def __init__(self):
-    self._height = 10
+	count = 0
+	def __init__(self, name, height):
+		self.name = name
+		self.height = height
+		Plant.count += 1
+	def plant_info(self):
+		return f"{self.name} ||| {self.height}cm"
 
-p = Plant()
+	@classmethod
+	def get_count(d):
+		return f"Total # of plants : {d.count}"
 
-# Real attribute name: _height
-print(p._height)
-p._height = 99
-print(p._height)
-# Convention only — Python
-# does NOT block direct access
+
+plant1 = Plant("Rose", 5)
+print(plant1.plant_info())
+plant2 = Plant("Tomato", 10)
+print(plant2.plant_info())
+plant3 = Plant("Pomme", 2)
+print(plant3.plant_info())
+
+print(Plant.get_count())
