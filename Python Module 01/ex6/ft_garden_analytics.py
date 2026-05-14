@@ -46,6 +46,8 @@ class Plant_Secured:
 		return self._height
 	def get_age(self) -> int:
 		return self._age
+	#count_method_called_________________________________________
+	class 
 	#show________________________________________________________
 	def show(self):
 		print(f"{self._name}: {self._height} cm, {self._age} days old")
