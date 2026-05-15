@@ -94,7 +94,6 @@ class Tree(Plant_Secured):
 	def display(self):
 		self._stats.display()
 		print(f"{self._produce_shade_call} shade")
-		pass
 
 class Vegetable(Plant_Secured):
 	def __init__(self, name : str, height : float, age : int, harvest_season : str):
@@ -122,9 +121,8 @@ class Seed(Flower):
 		super().show()
 		print(f"Seeds: {self._seed}")
 
-def display_stats(plant):
-	plant = Plant_Secured(plant)
-	plant.stats.display()
+def display_stats(plant : Plant_Secured):
+	plant._stats.display()
 
 if __name__ == "__main__":
 	print("=== Garden statistics ===")
@@ -137,12 +135,12 @@ if __name__ == "__main__":
 	print("\n=== Flower")
 	Rose = Flower("Rose", 15.0, 10, "red")
 	Rose.show()
-	Rose._stats.display()
+	display_stats(Rose)
 	print("[asking the rose to grow and bloom]")
 	Rose.grow()
 	Rose.bloom()
 	Rose.show()
-	Rose._stats.display()
+	display_stats(Rose)
 
 	# TREE
 	print("\n=== Tree")
@@ -162,4 +160,10 @@ if __name__ == "__main__":
 		Sunflower.grow()
 	Sunflower.bloom()
 	Sunflower.show()
-	Sunflower.display()
+	Sunflower._stats.display()
+
+	#ANONYMOUS
+	print("\n=== Anonymous")
+	Anonymous = Plant_Secured.anonymous()
+	Anonymous.show()
+	Anonymous._stats.display()
