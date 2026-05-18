@@ -1,2 +1,5 @@
-i = int('sdf')
-print(i)
+string = "nguyen"
+
+print(string)
+print(string.capitalize())
+print(string)
