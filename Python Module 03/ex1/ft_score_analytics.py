@@ -2,17 +2,17 @@
 import sys
 
 class ScoreError(Exception):
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         super().__init__(self, name)
         self.name = name
-    def __str__(self):
+    def __str__(self) -> None:
         return f"Invalid parameter: '{self.name}'"
     
-def check_digit(score : str):
+def check_digit(score : str) -> None:
     if score.isdigit() == False:
         raise ScoreError(score)
 
-def main():
+def main() -> None:
     print("=== Player Score Analytics ===")
     argv_len = len(sys.argv)
     scores = [None] * (argv_len - 1)
