@@ -12,9 +12,9 @@ def main():
     file_name = sys.argv[1]
     print(f"Accessing file '{file_name}'")
     try:
-        f = io.read(file_name)
+        f = open(file_name)
     except Exception as e:
-        print(f"{e}")
+        print(f"Error opening file {file_name}: {e}")
 
 if __name__ == "__main__":
     main()
