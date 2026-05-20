@@ -45,9 +45,12 @@ class Plant_Secured:
 if __name__ == "__main__":
     print("=== Garden Security System ===")
     rose = Plant_Secured("Rose", 15.0, 10)
+    print("\n")
     rose.set_height(2)
     rose.set_age(99)
+    print("\n")
     rose.set_height(-5)
     rose.set_age(-3)
+    print("\n")
     print(f"Current state: {rose._name}: "
-          f"{rose._height}cm, {rose._age} days old\n")
+          f"{rose._height}cm, {rose._age} days old")

@@ -68,8 +68,8 @@ class Plant_Secured:
 
         def display(self) -> None:
             print(f"[statistics for {self._plant._name}]")
-            print(f"Stats: {self._grow_call} grow, {self._age_call} age,")
-            print(f" {self._show_call} show")
+            print(f"Stats: {self._grow_call} grow, {self._age_call} age,"
+                  f" {self._show_call} show")
 
 
 class Flower(Plant_Secured):
