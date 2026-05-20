@@ -11,11 +11,12 @@ class Plant:
 
     def age(self) -> None:
         self.plant_age += 1
-        
+
     def show(self) -> None:
         print(f"{self.name}: {self.height} cm, {self.plant_age} days old")
-		
-def simulate_week(plant : Plant) -> None:
+
+
+def simulate_week(plant: Plant) -> None:
     print("=== Garden Plant Growth ===")
     plant.show()
     start_height = plant.height
@@ -27,7 +28,7 @@ def simulate_week(plant : Plant) -> None:
     growth = round(plant.height - start_height, 2)
     print(f"Growth this week: {growth}cm")
 
+
 if __name__ == "__main__":
     rose = Plant("Rose", 25.0, 30)
     simulate_week(rose)
-        
