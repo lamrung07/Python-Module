@@ -2,7 +2,7 @@
 import sys
 import typing
 
-def write_to_file(file_name: str, new_content: typing.List[str]):
+def write_to_file(file_name: str, new_content: typing.List[str]) -> None:
     try:
         n = open(file_name, 'w')
     except OSError as e:
