@@ -6,6 +6,7 @@ class DataProcessor(abc.ABC):
     def __init__(self) -> None:
         self.storage = []
         self.rank = 0
+        self.total_processed = 0
         pass
     @abc.abstractmethod
     def validate(self, data: typing.Any) -> bool:
@@ -19,6 +20,13 @@ class DataProcessor(abc.ABC):
         value = self.storage[0]
         del(self.storage[0])
         return (rank, value)
+
+    "Data Stream helpers"
+    def get_remaining(self) -> int:
+        return len(self.storage)
+
+    def get_total_processed(self) -> int:
+        return self.total_processed
         
 
 class NumericProcessor(DataProcessor):
@@ -38,8 +46,10 @@ class NumericProcessor(DataProcessor):
         if type(data) is list:
             for item in data:
                 self.storage.append(str(item))
+                self.total_processed += 1
         else:
             self.storage.append(str(data))
+            self.total_processed += 1
 
 
 class TextProcessor(DataProcessor):
@@ -58,8 +68,10 @@ class TextProcessor(DataProcessor):
         if type(data) is list:
             for item in data:
                 self.storage.append(item)
+                self.total_processed += 1
         else:
             self.storage.append(data)
+            self.total_processed += 1
 
 
 class LogProcessor(DataProcessor):
@@ -83,18 +95,94 @@ class LogProcessor(DataProcessor):
             data = [data]
         for item in data:
             self.storage.append(f"{item['log_level']}: {item['log_message']}")
+            self.total_processed += 1
             
 class DataStream():
     def __init__(self):
-        self.manager: dict[str, typing.Any] = {}
+        self.processors: list[DataProcessor] = []
     def register_processor(self, proc: DataProcessor) -> None:
-        pass
+        self.processors.append(proc)
     def process_stream(self, stream: list[typing.Any]) -> None:
-        pass
+        for element in stream:
+            handled = False
+            for proc in self.processors:
+                if proc.validate(element):
+                    proc.ingest(element)
+                    handled = True
+                    break
+            if not handled:
+                print(f"DataStream error - Can't process element in stream: {element}")
     def print_processors_stats(self) -> None:
-        pass
+        print("== DataStream statistics ==")
+        if not self.processors:
+            print("No processor found, no data")
+            return
+        for proc in self.processors:
+            name = type(proc).__name__
+            if name == 'NumericProcessor':
+                proc_name = 'Numeric Processor'
+            elif name == 'TextProcessor':
+                proc_name = 'Text Processor'
+            elif name == 'LogProcessor':
+                proc_name = 'Log Processor'
+            print(f"{proc_name}: total {proc.get_total_processed()} items processed,"
+                  f"remaining {proc.get_remaining()} on processor")
     
 if __name__ == "__main__":
     print("=== Code Nexus - Data Stream ===\n")
     print("Initialize Data Stream...\n== DataStream statistics ==")
-    
+    stream = DataStream()
+ 
+    # ── Initial stats 
+    print("Initialize Data Stream...")
+    stream.print_processors_stats()
+    print()
+ 
+    # ── Register only NumericProcessor first ──
+    print("Registering Numeric Processor")
+    num_proc = NumericProcessor()
+    stream.register_processor(num_proc)
+ 
+    batch: list[typing.Any] = [
+        "Hello world",
+        [3.14, -1, 2.71],
+        [
+            {"log_level": "WARNING", "log_message": "Telnet access! Use ssh instead"},
+            {"log_level": "INFO",    "log_message": "User wil is connected"},
+        ],
+        42,
+        ["Hi", "five"],
+    ]
+ 
+    print(f"Send first batch of data on stream: {batch}")
+    stream.process_stream(batch)
+    print('')
+    stream.print_processors_stats()
+    print('')
+
+     # ── Register remaining processors ─────────
+    print("Registering other data processors")
+    txt_proc = TextProcessor()
+    log_proc = LogProcessor()
+    stream.register_processor(txt_proc)
+    stream.register_processor(log_proc)
+ 
+    print("Send the same batch again")
+    stream.process_stream(batch)
+    print('')
+    stream.print_processors_stats()
+    print('')
+ 
+    # ── Consume elements ──────────────────────
+    print("Consume some elements from the data processors: Numeric 3, Text 2, Log 1")
+    for i in range(3):
+        rank, value = num_proc.output()
+        # print(f"  Numeric value {rank}: {value}")
+    for i in range(2):
+        rank, value = txt_proc.output()
+        # print(f"  Text value {rank}: {value}")
+    for i in range(1):
+        rank, value = log_proc.output()
+        # print(f"  Log entry {rank}: {value}")
+    print()
+    stream.print_processors_stats()
