@@ -32,6 +32,7 @@ class DataProcessor(abc.ABC):
         return self.total_processed
         
 
+''' ──────────────────────────────────────'''
 class NumericProcessor(DataProcessor):
     def validate(self, data: typing.Any) -> bool:
         if type(data) in (int, float):
@@ -129,7 +130,8 @@ class JSONExportPlugin:
             i -= 1
         print("}")
 
-    
+
+''' ─── Data Stream ───────────────────────────────────'''
 class DataStream():
     def __init__(self):
         self.processors: list[DataProcessor] = []
@@ -168,7 +170,6 @@ class DataStream():
             print(f"{proc_name}: total {proc.get_total_processed()} items processed,"
                   f"remaining {proc.get_remaining()} on processor")
             
-    
     
 if __name__ == "__main__":
 
