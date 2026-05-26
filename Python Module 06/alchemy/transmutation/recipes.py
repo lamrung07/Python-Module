@@ -1,0 +1,10 @@
+#!/usr/bin/env python3
+from alchemy.elements import create_air
+from ..potions import strength_potion
+from elements import create_fire
+
+def lead_to_gold():
+    return_str = (f"Recipe transmuting Lead to Gold: brew "
+                f"'{create_air()}' and '{strength_potion()} "
+                f"mixed with '{create_fire()}'")
+    return return_str

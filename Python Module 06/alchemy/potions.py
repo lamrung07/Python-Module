@@ -7,7 +7,7 @@ def healing_potion():
     return return_message
             
 def strength_potion():
-    return_message = (f"Strength potion brewed with ’{create_fire()}’ "
+    return_message = (f"Strength potion brewed with '{create_fire()}' "
                     f"and '{create_water()}'")
     return return_message
             
